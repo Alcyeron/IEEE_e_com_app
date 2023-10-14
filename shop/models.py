@@ -3,9 +3,9 @@ from django.db import models
 
 # Create your models here.
 class Product(models.Model):
-    name = models.TextField()
+    name = models.CharField(max_length=100)
     details = models.TextField()
-    image = models.URLField()
+    image = models.ImageField(null=True)
     rating = models.FloatField()
     price = models.IntegerField()
     mrp = models.IntegerField()
