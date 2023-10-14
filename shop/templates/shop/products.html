@@ -3,20 +3,20 @@
     <h1>Product page</h1><br>
     <p>This is the products page</p><br>
     <div class="row">
-    {% for item in items%}
+    {% for product in products%}
         <div class="col-sm-4">
             <div class="card border-primary mb-3">
-                <img class="card-img-top" src="..." alt="Card image cap"><!--<br><br><br><br><br><br><br>-->
-                <div class="card-body">
-                    <h5 class="card-title">{{ item.name }}</h5>
+                <img class="card-img-top" src="{{ product.image }}" alt="Card image cap"><!--<br><br><br><br><br><br><br>-->
+                <p class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text">
-                        <p>Rating: {{ item.rating }}</p>
-                        <p style = "font-size: 28px;">₹{{ item.price}}</p>
-                        <p style = "font-size: 12px;">MRP: <s>₹{{ item.mrp }}</s> ({{ item.discount }}% off)</p>
-                    </p>
+                        <p>Rating: {{ product.rating }}</p>
+                        <p style = "font-size: 28px;">₹{{ product.price}}</p>
+                    <p style = "font-size: 12px;">MRP: <s>₹{{ product.mrp }}</s>{% comment %} ({{ product.discount }}% off)</p>{% endcomment %}
                     <a href="#" class="btn btn-primary">View details</a>
                 </div>
             </div>
         </div>
     {% endfor %}
+    </div>
 {% endblock main %}
