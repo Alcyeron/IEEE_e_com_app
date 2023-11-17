@@ -1,4 +1,5 @@
 from django.db import models
+from PIL import Image
 
 
 # Create your models here.
@@ -13,3 +14,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, **kwargs):
+        super().save()
+        img = Image.open(self.image.path)
+        if img.height > 348 or img.width > 348:
+            img.thumbnail((348, 348))
+            img.save(self.image.path)
