@@ -27,5 +27,6 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='user/login.html')),
     path('logout/', auth_views.LogoutView.as_view(template_name='user/logout.html')),
+    path('wallet/', user_views.add_amount, name='wallet'),
     path('', include("shop.urls", namespace="shop_app")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

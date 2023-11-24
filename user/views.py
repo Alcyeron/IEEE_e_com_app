@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserRegisterForm, UserUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, AmountAddForm
+from .models import Wallet
+from django.contrib.auth.models import User
 
 
 def register(request):
@@ -31,3 +33,23 @@ def profile(request):
         'u_form': u_form
     }
     return render(request, 'user/profile.html', content)
+
+
+@login_required
+def add_amount(request):
+    if request.method == 'POST':
+        w_form = AmountAddForm(request.POST)
+        if w_form.is_valid():
+            amount = w_form.cleaned_data.get('amount')
+            wallet = User.objects.filter(username=request.user).first().wallet
+            wallet.balance += amount
+            wallet.save()
+            messages.success(request, f"₹{amount} has been added to your account")
+            return redirect('/wallet/')
+    else:
+        w_form = AmountAddForm()
+    content_w = {
+        'title': "Wallet",
+        'w_form': w_form
+    }
+    return render(request, "user/wallet.html", content_w)

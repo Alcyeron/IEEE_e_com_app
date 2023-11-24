@@ -67,13 +67,6 @@ def products(request):
     return render(request, "shop/products.html", content_p)
 
 
-def wallet(request):
-    content_w = {
-        'title': "Wallet"
-    }
-    return render(request, "shop/wallet.html", content_w)
-
-
 def orders(request):
     content_o = {
         'title': "Orders"

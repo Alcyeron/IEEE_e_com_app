@@ -4,6 +4,7 @@ from PIL import Image
 
 # Create your models here.
 class Product(models.Model):
+    id = models.CharField(primary_key=True, max_length=4)
     name = models.CharField(max_length=100)
     details = models.TextField()
     image = models.ImageField(null=True)

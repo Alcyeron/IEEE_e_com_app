@@ -1,0 +1,21 @@
+{% extends "shop/base.html" %}
+{% load crispy_forms_tags %}
+{% block main %}
+    <h1>Wallet page</h1>
+    <p>This is the wallet page</p>
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+        <div class="border-top pt-3">
+                Current balance: {{ user.wallet.balance }}
+        </div>
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Add amount to wallet</legend>
+                {{ w_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Add</button>
+            </div>
+        </form>
+    </div>
+{% endblock main %}
