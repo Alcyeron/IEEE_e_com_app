@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic import DetailView
 from .models import Product
 # Create your views here.
 items = [
@@ -65,6 +66,10 @@ def products(request):
         'i': 0
     }
     return render(request, "shop/products.html", content_p)
+
+
+class ProductDetailView(DetailView):
+    model = Product
 
 
 def orders(request):

@@ -1,0 +1,18 @@
+{% extends "shop/base.html" %}
+{% block main %}
+    <h1>Product Details</h1><br><br>
+    <div class="row">
+        <div class="col-sm-4">
+                <img  src="/media/{{ object.image }}" alt="{{ object.name }} image"><!--<br><br><br><br><br><br><br>-->
+        </div>
+        <div class="col-sm-4">
+                <p>
+                    <h5>{{ object.name }}</h5>
+                    <p>
+                        <p>Rating: {{ object.rating }}</p>
+                        <p style = "font-size: 28px;">₹{{ object.price}}</p>
+                    <p style = "font-size: 12px;">MRP: <s>₹{{ object.mrp }}</s>xx% off)</p>
+                    <a href="#" class="btn btn-primary">Add To Cart</a>
+        </div>
+    </div>
+{% endblock main %}
