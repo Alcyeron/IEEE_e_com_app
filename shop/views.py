@@ -1,6 +1,11 @@
 from django.shortcuts import render
-from django.views.generic import DetailView
-from .models import Product
+from django.contrib.auth.decorators import login_required
+from django.views.generic import DetailView, ListView, CreateView, View
+from .models import Product, CartItem
+from django.views.generic.detail import SingleObjectMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import AddToCartForm
+
 # Create your views here.
 items = [
     {
@@ -62,14 +67,50 @@ def shop(request):
 def products(request):
     content_p = {
         'title': "Products",
-        'products': Product.objects.all(),
-        'i': 0
+        'products': Product.objects.all()
     }
     return render(request, "shop/products.html", content_p)
 
 
 class ProductDetailView(DetailView):
     model = Product
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        form_values = {
+            'user': self.request.user,
+            'product': self.get_object()
+        }
+        context["form"] = AddToCartForm(initial=form_values)
+        return context
+
+
+class AddToCartView(LoginRequiredMixin, CreateView):
+    template_name = "shop/product_detail.html"
+    form_class = AddToCartForm
+    model = CartItem
+    success_url = '/cart'
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+@login_required
+def view_cart(request):
+    content_c = {
+        'title': "Cart",
+        'items': request.user.cartitem_set.all()
+    }
+    return render(request, "shop/cartitem_list.html", content_c)
+
+
+class CartView(View):
+    def get(self, request, *args, **kwargs):
+        return view_cart(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = AddToCartView.as_view()
+        return view(request, *args, **kwargs)
 
 
 def orders(request):

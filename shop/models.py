@@ -1,8 +1,11 @@
 from django.db import models
 from PIL import Image
+from django.contrib.auth.models import User
 
 
 # Create your models here.
+
+
 class Product(models.Model):
     id = models.CharField(primary_key=True, max_length=4)
     name = models.CharField(max_length=100)
@@ -22,3 +25,12 @@ class Product(models.Model):
         if img.height > 348 or img.width > 348:
             img.thumbnail((348, 348))
             img.save(self.image.path)
+
+
+class CartItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f'{self.user} : {self.product} ({self.quantity})'
